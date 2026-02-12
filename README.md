@@ -112,7 +112,16 @@ Your initiative is ready.
    - Set **Effect** → `Audit`
    - Set **Environment allowed values** → `dev`, `test`, `staging`, `production`
    - Set **CostCenter allowed values** → your organization's values
-5. Click **Review + create** → **Create**
+5. Go to the **Non-compliance messages** tab:
+   - In **Default non-compliance message**, enter:
+     ```
+     Resources must include the following tags: Environment, Owner, and CostCenter.
+     Example: Environment = dev | test | staging | production
+     CostCenter = your organization's approved values.
+     If tags exist on the resource group, they will be inherited automatically.
+     ```
+   > This message is what developers see when a deployment is denied — make it helpful, not scary.
+6. Click **Review + create** → **Create**
 
 Tagging governance is now deployed.
 
