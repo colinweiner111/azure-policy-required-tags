@@ -81,7 +81,7 @@ Best practice is to group related policies into an initiative so they can be ass
    | Inherit a tag from the resource... (2nd) | `Owner` |
    | Inherit a tag from the resource... (3rd) | `CostCenter` |
 
-6. Click **Save**
+6. Click **Review + create**, then **Create**
 
 Your initiative is ready.
 
