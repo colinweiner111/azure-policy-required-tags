@@ -89,18 +89,16 @@ Your initiative is ready.
 
 1. Go to **Policy** → **Assignments**
 2. Click **Assign initiative**
-3. Select **Tagging Governance Initiative**
-4. Set:
-
-   | Setting | Value |
-   |---------|-------|
-   | Scope | Management Group (recommended) or Subscription |
-   | Effect | `Audit` |
-
-5. Set allowed values:
-   - **Environment** → `dev`, `test`, `staging`, `production`
-   - **CostCenter** → your organization's values
-6. Click **Review + Create** → **Create**
+3. On the **Basics** tab:
+   - **Scope** — pick your Management Group (recommended) or Subscription
+   - **Initiative definition** — click **…** and select **Tagging Governance Initiative**
+   - **Assignment name** auto-fills; leave it or rename
+   - **Policy enforcement** — leave **Enabled**
+4. Go to the **Parameters** tab:
+   - Set **Effect** → `Audit`
+   - Set **Environment allowed values** → `dev`, `test`, `staging`, `production`
+   - Set **CostCenter allowed values** → your organization's values
+5. Click **Review + create** → **Create**
 
 Tagging governance is now deployed.
 
