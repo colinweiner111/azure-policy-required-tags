@@ -55,7 +55,7 @@ You now have the two custom policies ready.
 
 ### Step 3 — Create the Tagging Governance Initiative
 
-Now group the policies together into an initiative (policy set).
+Best practice is to group related policies into an initiative so they can be assigned and managed together.
 
 1. Go to **Policy** → **Definitions**
 2. Click **+ Initiative definition**
@@ -73,7 +73,14 @@ Now group the policies together into an initiative (policy set).
      - Once for `Environment`
      - Once for `Owner`
      - Once for `CostCenter`
-5. Go to the **Parameters** tab and leave defaults
+5. Go to the **Policy parameters** tab and fill in the **Tag Name** for each "Inherit a tag from the resource group" entry:
+
+   | Reference | Tag Name |
+   |-----------|----------|
+   | Inherit a tag from the resource... (1st) | `Environment` |
+   | Inherit a tag from the resource... (2nd) | `Owner` |
+   | Inherit a tag from the resource... (3rd) | `CostCenter` |
+
 6. Click **Save**
 
 Your initiative is ready.
@@ -197,7 +204,7 @@ Ensures all three mandatory tags are present on every resource.
 
 ### Policy 2: Enforce Allowed Tag Values
 
-Validates that tag values match approved lists. Uses `toLower()` to handle case-sensitivity.
+This policy uses parameters to define the allowed tag values and enforces them. It uses `toLower()` to handle case-sensitivity.
 
 ```json
 {
