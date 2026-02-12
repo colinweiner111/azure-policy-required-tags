@@ -63,6 +63,7 @@ Best practice is to group related policies into an initiative so they can be ass
 
    | Setting | Value |
    |---------|-------|
+   | Initiative location | Your subscription or management group |
    | Name | `Tagging Governance Initiative` |
    | Category | Tags |
 
