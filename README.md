@@ -128,9 +128,13 @@ Tagging governance is now deployed.
 ### Step 5 — Monitor and Switch to Deny Later
 
 1. Go to **Policy** → **Compliance**
-2. Monitor compliance for 2–4 weeks
-3. Remediate non-compliant resources
-4. When compliance reaches ~95%, edit the assignment and change **Effect** → `Deny`
+2. To force an immediate evaluation instead of waiting for the next cycle (~24 hrs):
+   ```bash
+   az policy state trigger-scan --resource-group <rg-name>
+   ```
+3. Monitor compliance for 2–4 weeks
+4. Remediate non-compliant resources
+5. When compliance reaches ~95%, edit the assignment and change **Effect** → `Deny`
 
 New resources must now follow tagging standards.
 
