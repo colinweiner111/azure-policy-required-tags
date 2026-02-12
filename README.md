@@ -1,6 +1,6 @@
 # Azure Policy — Tagging Governance Initiative
 
-Enforce mandatory tagging standards across your Azure environment using Azure Policy. This repo provides production-hardened policy definitions that require specific tags on all resources and validate their values against approved lists.
+Implement enterprise-ready tagging governance in Azure using Azure Policy. This repo provides production-hardened policy definitions that require specific tags on all resources and validate their values against approved lists.
 
 ## The Problem
 
@@ -10,6 +10,8 @@ Without tag enforcement, Azure environments quickly become ungovernable:
 - Inconsistent tag names and values across teams
 - Compliance reporting becomes unreliable
 - FinOps cost allocation breaks down
+
+Consistent tagging is critical for [Azure Cost Management](https://learn.microsoft.com/azure/cost-management-billing/costs/quick-acm-cost-analysis) exports and FinOps reporting. Without it, cost attribution is guesswork.
 
 ## Architecture: Initiative-Based Approach
 
@@ -26,6 +28,8 @@ This gives you:
 - Easier exemptions per policy
 - Reusability across subscriptions and management groups
 
+> This initiative is designed to be assigned at the **management group level** to ensure consistent tagging across all subscriptions.
+
 ---
 
 ## Policy Definitions
@@ -33,6 +37,8 @@ This gives you:
 ### Policy 1: Require Tags Exist
 
 Ensures all three mandatory tags are present on every resource.
+
+> **Important:** `mode: "Indexed"` is required for tag evaluation because tags are only available on indexed resource types. Changing this to `All` will break tag enforcement.
 
 ```json
 {
@@ -175,19 +181,23 @@ Validates that tag values match approved lists. Uses `toLower()` to handle case-
 
 Auto-applies tags from the parent Resource Group when resources are missing them. This is critical because **Azure does NOT automatically inherit tags from Resource Groups** — a common misconception.
 
-Use the built-in policy definitions for this:
+Use the built-in policy definition `Inherit a tag from the resource group if missing` for this. This is a single policy definition — you create three separate **assignments**, each with a different `tagName` parameter value:
 
-| Built-in Policy | Policy Definition ID |
-|-----------------|---------------------|
-| Inherit `Environment` tag from RG | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
-| Inherit `Owner` tag from RG | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
-| Inherit `CostCenter` tag from RG | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
-
-> The same built-in definition is reused with different `tagName` parameter values per assignment.
+| Assignment | `tagName` Parameter | Policy Definition ID |
+|------------|---------------------|---------------------|
+| Inherit `Environment` tag from RG | `Environment` | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
+| Inherit `Owner` tag from RG | `Owner` | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
+| Inherit `CostCenter` tag from RG | `CostCenter` | `ea3f2387-9b95-492a-a190-fcbfef9b1aac` |
 
 ---
 
 ## Deployment
+
+### Quick Start
+
+**Portal** (recommended): Create the two custom policy definitions → create the Tagging Governance Initiative → assign the initiative with Effect = `Audit` at the management group (recommended) or subscription level.
+
+**Automation**: Use the Azure CLI or Bicep examples below.
 
 ### Safe Rollout Pattern
 
@@ -353,9 +363,21 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2021-06-01'
 
 4. **Split policies beat monolithic ones** — easier compliance reporting, exemptions, and reuse.
 
-5. **Some resources can't be tagged** — `mode: "Indexed"` correctly skips non-taggable resource types (role assignments, policy assignments, etc.).
+5. **Some resources can't be tagged** — non-taggable resource types (role assignments, policy assignments, etc.) are automatically skipped.
 
 6. **System resources need consideration** — AKS managed resources, Defender artifacts, and Marketplace solutions may need assignment-level exclusions via `notScopes` or exemptions.
+
+---
+
+## Exemptions vs Exclusions
+
+Use **policy exemptions** for temporary or approved exceptions rather than excluding scopes with `notScopes`.
+
+- Provides an **audit trail** of who approved the exception and why
+- Supports **expiration dates** so exemptions don't linger forever
+- Enables **justification and approval workflows** through integration with governance processes
+
+Reserve `notScopes` for permanent exclusions only, such as sandbox subscriptions or dedicated lab environments.
 
 ---
 
