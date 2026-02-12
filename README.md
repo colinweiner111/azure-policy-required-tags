@@ -79,8 +79,8 @@ Best practice is to group related policies into an initiative so they can be ass
    | Name | Display name | Type |
    |------|-------------|------|
    | `effect` | Effect | String |
-   | `allowedEnvironments` | Allowed Environment values | Array |
-   | `allowedCostCenters` | Allowed CostCenter values | Array |
+   | `allowedEnvironment` | Allowed Environment values | Array |
+   | `allowedCostCenter` | Allowed CostCenter values | Array |
 
 6. Go to the **Policy parameters** tab. Each policy's parameters appear as rows. For each one, click the drop-down and choose whether to use a fixed value or link it to one of the initiative parameters you just created:
 
@@ -88,8 +88,8 @@ Best practice is to group related policies into an initiative so they can be ass
    |--------|-----------|--------|
    | Require Environment, Owner, and CostCenter tags | Effect | Use initiative parameter → `effect` |
    | Enforce Allowed Tag Values | Effect | Use initiative parameter → `effect` |
-   | Enforce Allowed Tag Values | Allowed Environment values | Use initiative parameter → `allowedEnvironments` |
-   | Enforce Allowed Tag Values | Allowed CostCenter values | Use initiative parameter → `allowedCostCenters` |
+   | Enforce Allowed Tag Values | Allowed Environment values | Use initiative parameter → `allowedEnvironment` |
+   | Enforce Allowed Tag Values | Allowed CostCenter values | Use initiative parameter → `allowedCostCenter` |
    | Inherit a tag from the resource… (1st) | Tag Name | `Environment` |
    | Inherit a tag from the resource… (2nd) | Tag Name | `Owner` |
    | Inherit a tag from the resource… (3rd) | Tag Name | `CostCenter` |
