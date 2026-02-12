@@ -79,17 +79,17 @@ Best practice is to group related policies into an initiative so they can be ass
    | Name | Display name | Type |
    |------|-------------|------|
    | `effect` | Effect | String |
-   | `allowedEnvironment` | Allowed Environment values | Array |
-   | `allowedCostCenter` | Allowed CostCenter values | Array |
+   | `allowedEnvironments` | Allowed Environment values | Array |
+   | `allowedCostCenters` | Allowed CostCenter values | Array |
 
 6. Go to the **Policy parameters** tab. **Uncheck** "Only show parameters that need input or review" to see all rows. Then set each row:
 
    | Reference ID | Parameter name | Value Type | Value(s) |
    |-------------|---------------|------------|----------|
-   | Require Environment, Owner, a… | Policy Effect | Use initiative parameter → `effect` | |
-   | Enforce Allowed Tag Values_1 | Policy Effect | Use initiative parameter → `effect` | |
-   | Enforce Allowed Tag Values_1 | Allowed CostCenter values | Use initiative parameter → `allowedCostCenter` | |
-   | Enforce Allowed Tag Values_1 | Allowed Environment values | Use initiative parameter → `allowedEnvironment` | |
+   | Require Environment, Owner, and CostCenter tags_1 | Policy Effect | Use Initiative Parameter | `effect` |
+   | Enforce Allowed Tag Values_1 | Policy Effect | Use Initiative Parameter | `effect` |
+   | Enforce Allowed Tag Values_1 | Allowed CostCenter values | Use Initiative Parameter | `allowedCostCenters` |
+   | Enforce Allowed Tag Values_1 | Allowed Environment values | Use Initiative Parameter | `allowedEnvironments` |
    | Inherit a tag from the resource group if missing_1 | Tag Name | Set value | type `Environment` |
    | Inherit a tag from the resource group if missing_2 | Tag Name | Set value | type `Owner` |
    | Inherit a tag from the resource group if missing_3 | Tag Name | Set value | type `CostCenter` |
