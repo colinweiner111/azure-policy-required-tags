@@ -13,6 +13,16 @@ In about 15 minutes, you will deploy Azure Policy that:
 
 This is a safe, recommended starting point for new Azure environments.
 
+### Required Tags
+
+| Tag | Required Value |
+|---|---|
+| `Environment` | `dev`, `test`, `staging`, or `production` |
+| `Owner` | anything (e.g., `colin`) |
+| `CostCenter` | `it`, `finance`, `engineering`, `marketing`, or `operations` |
+
+All three tags must be present. Values are **case-insensitive** (e.g., `Dev`, `dev`, and `DEV` all work).
+
 ---
 
 ## Deploy in the Azure Portal
