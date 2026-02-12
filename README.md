@@ -82,17 +82,17 @@ Best practice is to group related policies into an initiative so they can be ass
    | `allowedEnvironment` | Allowed Environment values | Array |
    | `allowedCostCenter` | Allowed CostCenter values | Array |
 
-6. Go to the **Policy parameters** tab. Each policy's parameters appear as rows. For each one, click the drop-down and choose whether to use a fixed value or link it to one of the initiative parameters you just created:
+6. Go to the **Policy parameters** tab. **Uncheck** "Only show parameters that need input or review" to see all rows. Then set each row:
 
-   | Policy | Parameter | Set to |
-   |--------|-----------|--------|
-   | Require Environment, Owner, and CostCenter tags | Effect | Use initiative parameter → `effect` |
-   | Enforce Allowed Tag Values | Effect | Use initiative parameter → `effect` |
-   | Enforce Allowed Tag Values | Allowed Environment values | Use initiative parameter → `allowedEnvironment` |
-   | Enforce Allowed Tag Values | Allowed CostCenter values | Use initiative parameter → `allowedCostCenter` |
-   | Inherit a tag from the resource… (1st) | Tag Name | `Environment` |
-   | Inherit a tag from the resource… (2nd) | Tag Name | `Owner` |
-   | Inherit a tag from the resource… (3rd) | Tag Name | `CostCenter` |
+   | Reference ID | Parameter name | Value Type | Value(s) |
+   |-------------|---------------|------------|----------|
+   | Require Environment, Owner, a… | Policy Effect | Use initiative parameter → `effect` | |
+   | Enforce Allowed Tag Values_1 | Policy Effect | Use initiative parameter → `effect` | |
+   | Enforce Allowed Tag Values_1 | Allowed CostCenter values | Use initiative parameter → `allowedCostCenter` | |
+   | Enforce Allowed Tag Values_1 | Allowed Environment values | Use initiative parameter → `allowedEnvironment` | |
+   | Inherit a tag from the resource… | Tag Name | Set value | `Environment` |
+   | Inherit a tag from the resource… | Tag Name | Set value | `Owner` |
+   | Inherit a tag from the resource… | Tag Name | Set value | `CostCenter` |
 
 7. Click **Review + create**, then **Create**
 
