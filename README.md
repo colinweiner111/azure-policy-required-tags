@@ -90,9 +90,9 @@ Best practice is to group related policies into an initiative so they can be ass
    | Enforce Allowed Tag Values_1 | Policy Effect | Use initiative parameter → `effect` | |
    | Enforce Allowed Tag Values_1 | Allowed CostCenter values | Use initiative parameter → `allowedCostCenter` | |
    | Enforce Allowed Tag Values_1 | Allowed Environment values | Use initiative parameter → `allowedEnvironment` | |
-   | Inherit a tag from the resource… | Tag Name | Set value | `Environment` |
-   | Inherit a tag from the resource… | Tag Name | Set value | `Owner` |
-   | Inherit a tag from the resource… | Tag Name | Set value | `CostCenter` |
+   | Inherit a tag from the resource group if missing_1 | Tag Name | Set value | type `Environment` |
+   | Inherit a tag from the resource group if missing_2 | Tag Name | Set value | type `Owner` |
+   | Inherit a tag from the resource group if missing_3 | Tag Name | Set value | type `CostCenter` |
 
 7. Click **Review + create**, then **Create**
 
