@@ -128,10 +128,11 @@ Tagging governance is now deployed.
 ### Step 5 — Monitor and Switch to Deny Later
 
 1. Go to **Policy** → **Compliance**
-2. To force an immediate evaluation instead of waiting for the next cycle (~24 hrs):
+2. To force an immediate evaluation instead of waiting for the next cycle:
    ```bash
    az policy state trigger-scan --resource-group <rg-name>
    ```
+   > **Evaluation timing:** New/updated resources are evaluated at deploy time (~15 min for results). New assignments start evaluating within ~5 minutes. The 24-hour cycle is for re-scanning existing resources that haven't changed.
 3. Monitor compliance for 2–4 weeks
 4. Remediate non-compliant resources
 5. When compliance reaches ~95%, edit the assignment and change **Effect** → `Deny`
