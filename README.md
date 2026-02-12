@@ -73,7 +73,18 @@ Best practice is to group related policies into an initiative so they can be ass
      - Once for `Environment`
      - Once for `Owner`
      - Once for `CostCenter`
-5. Go to the **Policy parameters** tab and fill in the **Tag Name** for each "Inherit a tag from the resource group" entry:
+5. Go to the **Initiative parameters** tab and create the following parameters (these surface on the assignment so you can change them later):
+
+   | Name | Display name | Type |
+   |------|-------------|------|
+   | `effect` | Effect | String |
+   | `allowedEnvironments` | Allowed Environment values | Array |
+   | `allowedCostCenters` | Allowed CostCenter values | Array |
+
+6. Go to the **Policy parameters** tab:
+   - Map each policy's **effect** parameter to the initiative parameter `effect` (drop-down → select the initiative parameter instead of typing a value)
+   - Map **Enforce Allowed Tag Values** → allowed values to the matching initiative parameters (`allowedEnvironments`, `allowedCostCenters`)
+   - Fill in the **Tag Name** for each "Inherit a tag from the resource group" entry:
 
    | Reference | Tag Name |
    |-----------|----------|
