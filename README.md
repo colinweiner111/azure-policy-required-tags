@@ -1,17 +1,126 @@
-# Azure Policy — Tagging Governance Initiative
+# Azure Tagging Governance — Portal Quick Start
 
-Implement enterprise-ready tagging governance in Azure using Azure Policy. This repo provides production-hardened policy definitions that require specific tags on all resources and validate their values against approved lists.
+Implement simple, production-ready tagging governance in Azure using Azure Policy — no CLI or IaC required.
 
-## The Problem
+## What You Will Accomplish
 
-Without tag enforcement, Azure environments quickly become ungovernable:
+In about 15 minutes, you will deploy Azure Policy that:
 
-- Resources deployed with no ownership or cost attribution
-- Inconsistent tag names and values across teams
-- Compliance reporting becomes unreliable
-- FinOps cost allocation breaks down
+- **Requires** `Environment`, `Owner`, and `CostCenter` tags on all resources
+- **Automatically inherits** tags from Resource Groups
+- **Starts in Audit mode** so nothing breaks
+- **Prepares** your environment for Cost Management and FinOps reporting
 
-Consistent tagging is critical for [Azure Cost Management](https://learn.microsoft.com/azure/cost-management-billing/costs/quick-acm-cost-analysis) exports and FinOps reporting. Without it, cost attribution is guesswork.
+This is a safe, recommended starting point for new Azure environments.
+
+---
+
+## Deploy in the Azure Portal
+
+Follow these steps in the [Azure Portal](https://portal.azure.com). You will create two custom policies, combine them into an initiative, and assign it in Audit mode.
+
+### Step 1 — Create the "Require Tags" Policy
+
+1. Open the **Azure Portal**
+2. Search for **Policy**
+3. Go to **Policy** → **Definitions**
+4. Click **+ Policy definition**
+5. Fill in:
+
+   | Setting | Value |
+   |---------|-------|
+   | Definition location | Your subscription or management group |
+   | Name | `Require Environment, Owner, and CostCenter tags` |
+   | Category | Tags |
+
+6. In **Policy rule**, paste the JSON from [Policy 1](#policy-1-require-tags-exist) below
+7. Click **Save**
+
+### Step 2 — Create the "Allowed Values" Policy
+
+Repeat the same process:
+
+1. Click **+ Policy definition**
+2. Fill in:
+
+   | Setting | Value |
+   |---------|-------|
+   | Name | `Enforce Allowed Tag Values` |
+   | Category | Tags |
+
+3. Paste the JSON from [Policy 2](#policy-2-enforce-allowed-tag-values) below
+4. Click **Save**
+
+You now have the two custom policies ready.
+
+### Step 3 — Create the Tagging Governance Initiative
+
+Now group the policies together into an initiative (policy set).
+
+1. Go to **Policy** → **Definitions**
+2. Click **+ Initiative definition**
+3. Fill in:
+
+   | Setting | Value |
+   |---------|-------|
+   | Name | `Tagging Governance Initiative` |
+   | Category | Tags |
+
+4. Click **Add policy definition(s)** and add:
+   - `Require Environment, Owner, and CostCenter tags`
+   - `Enforce Allowed Tag Values`
+   - Built-in: `Inherit a tag from the resource group if missing` — add this **three times**:
+     - Once for `Environment`
+     - Once for `Owner`
+     - Once for `CostCenter`
+5. Go to the **Parameters** tab and leave defaults
+6. Click **Save**
+
+Your initiative is ready.
+
+### Step 4 — Assign the Initiative (Start in Audit Mode)
+
+1. Go to **Policy** → **Assignments**
+2. Click **Assign initiative**
+3. Select **Tagging Governance Initiative**
+4. Set:
+
+   | Setting | Value |
+   |---------|-------|
+   | Scope | Management Group (recommended) or Subscription |
+   | Effect | `Audit` |
+
+5. Set allowed values:
+   - **Environment** → `dev`, `test`, `staging`, `production`
+   - **CostCenter** → your organization's values
+6. Click **Review + Create** → **Create**
+
+Tagging governance is now deployed.
+
+### Step 5 — Monitor and Switch to Deny Later
+
+1. Go to **Policy** → **Compliance**
+2. Monitor compliance for 2–4 weeks
+3. Remediate non-compliant resources
+4. When compliance reaches ~95%, edit the assignment and change **Effect** → `Deny`
+
+New resources must now follow tagging standards.
+
+---
+
+## What You Just Deployed
+
+This solution includes three governance controls:
+
+| Control | Purpose |
+|---------|---------|
+| **Require tags exist** | Ensures every resource has core tags |
+| **Enforce allowed values** | Standardizes tag values |
+| **Inherit tags from RG** | Automatically applies missing tags |
+
+Together, these provide a strong tagging foundation without breaking deployments.
+
+---
 
 ## Architecture: Initiative-Based Approach
 
@@ -191,78 +300,11 @@ Use the built-in policy definition `Inherit a tag from the resource group if mis
 
 ---
 
-## Deployment
+## CLI and Bicep Automation
 
-### Quick Start
+For teams ready to automate, these examples provide the same deployment via code.
 
-**Portal** (recommended): Create the two custom policy definitions → create the Tagging Governance Initiative → assign the initiative with Effect = `Audit` at the management group (recommended) or subscription level.
-
-**Automation**: Use the Azure CLI or Bicep examples below.
-
-### Safe Rollout Pattern
-
-```
-Phase 1: Audit     →  Assign with effect = "Audit"
-                       Monitor compliance for 2-4 weeks
-                       Identify non-compliant resources
-
-Phase 2: Remediate →  Fix existing resources via remediation tasks
-                       Update IaC pipelines
-                       Educate teams
-
-Phase 3: Deny      →  Switch effect to "Deny"
-                       Only after >95% compliance achieved
-```
-
-### Deploy via Azure Portal (Recommended for Getting Started)
-
-#### Step 1 — Create the Policy Definitions
-
-1. Open the [Azure Portal](https://portal.azure.com)
-2. Navigate to **Policy** → **Definitions**
-3. Click **+ Policy definition**
-4. Set:
-   - **Definition location**: Select your subscription or management group
-   - **Name**: `Require Environment, Owner, and CostCenter tags`
-   - **Category**: Click **Use existing** → select **Tags**
-5. Paste the JSON from **Policy 1: Require Tags Exist** (above) into the **Policy rule** field
-6. Click **Save**
-7. Repeat for **Policy 2: Enforce Allowed Tag Values**
-
-#### Step 2 — Create the Initiative (Policy Set)
-
-1. Go to **Policy** → **Definitions**
-2. Click **+ Initiative definition**
-3. Set:
-   - **Name**: `Tagging Governance Initiative`
-   - **Category**: **Tags**
-4. Click **Add policy definition(s)** and add:
-   - `Require Environment, Owner, and CostCenter tags`
-   - `Enforce Allowed Tag Values`
-   - Built-in: `Inherit a tag from the resource group` (add this 3 times — once for each tag: `Environment`, `Owner`, `CostCenter`)
-5. Configure parameter values on the **Parameters** tab
-6. Click **Save**
-
-#### Step 3 — Assign the Initiative (Audit Mode)
-
-1. Go to **Policy** → **Assignments**
-2. Click **Assign initiative**
-3. Select your **Tagging Governance Initiative**
-4. **Scope**: Select your subscription (or management group)
-5. On the **Parameters** tab:
-   - Set **Effect** = `Audit`
-   - Set allowed Environment values (e.g., `dev`, `test`, `staging`, `production`)
-   - Set allowed CostCenter values (e.g., `it`, `finance`, `engineering`)
-6. Click **Review + create** → **Create**
-
-#### Step 4 — Monitor and Switch to Deny
-
-1. Go to **Policy** → **Compliance**
-2. Monitor your initiative's compliance percentage over 2–4 weeks
-3. Remediate non-compliant resources
-4. Once compliance exceeds 95%, edit the assignment and change **Effect** to `Deny`
-
-### Deploy via Azure CLI (Automation)
+### Azure CLI
 
 **Create the policy definition:**
 
@@ -295,7 +337,7 @@ az policy assignment update \
   --set "parameters.effect.value=Deny"
 ```
 
-### Deploy via Bicep (Infrastructure as Code)
+### Bicep
 
 ```bicep
 targetScope = 'subscription'
