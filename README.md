@@ -108,6 +108,7 @@ Your initiative is ready.
    - **Assignment name** auto-fills; leave it or rename
    - **Policy enforcement** — leave **Enabled**
 4. Go to the **Parameters** tab:
+   - Uncheck **"Only show parameters that need input or review"** so all parameters appear
    - Set **Effect** → `Audit`
    - Set **Environment allowed values** → `dev`, `test`, `staging`, `production`
    - Set **CostCenter allowed values** → your organization's values
