@@ -74,13 +74,13 @@ Best practice is to group related policies into an initiative so they can be ass
      - Once for `Environment`
      - Once for `Owner`
      - Once for `CostCenter`
-5. Go to the **Initiative parameters** tab and create the following parameters (these surface on the assignment so you can change them later):
+5. Go to the **Initiative parameters** tab and create the following parameters (these surface on the assignment so you can change them later). Click **…** on each to set the default value — array parameters **must** have an array default or you'll get a type-mismatch error:
 
-   | Name | Display name | Type |
-   |------|-------------|------|
-   | `effect` | Effect | String |
-   | `allowedEnvironments` | Allowed Environment values | Array |
-   | `allowedCostCenters` | Allowed CostCenter values | Array |
+   | Name | Display name | Type | Default Value |
+   |------|-------------|------|---------------|
+   | `effect` | Effect | String | `Audit` |
+   | `allowedEnvironments` | Allowed Environment values | Array | `["dev","test","staging","production"]` |
+   | `allowedCostCenters` | Allowed CostCenter values | Array | `["it","finance","engineering","marketing","operations"]` |
 
 6. Go to the **Policy parameters** tab. **Uncheck** "Only show parameters that need input or review" to see all rows. Then set each row:
 
